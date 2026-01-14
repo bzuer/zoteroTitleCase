@@ -3,7 +3,7 @@ A .js script to Title Case titles on Zotero.
 
 **Select the items** > Tools > Developer > Run JavaScript 
 
-```
+```js
 (async () => {
     const items = Zotero.getActiveZoteroPane().getSelectedItems();
     
