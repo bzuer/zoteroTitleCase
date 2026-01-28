@@ -11,7 +11,7 @@ A .js script to Title Case titles on Zotero.
         return "Please, select the item";
     }
 
-const minorWords = new Set([
+    const minorWords = new Set([
         'a', 'an', 'and', 'as', 'at', 'but', 'by', 'en', 'for', 'if', 'in', 'nor', 'of', 'on', 'or', 'per', 'the', 'to', 'v', 'vs', 'via',
         'o', 'a', 'os', 'as', 'um', 'uma', 'uns', 'umas', 'de', 'do', 'da', 'dos', 'das', 'em', 'no', 'na', 'nos', 'nas', 'e', 'com', 'por', 'para', 'sob', 'sobre',
         'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'del', 'y', 'al', 'con',
@@ -25,7 +25,6 @@ const minorWords = new Set([
 
         let oldTitle = item.getField('title');
         if (!oldTitle) continue;
-
 
         let words = oldTitle.split(/\s+/);
         
@@ -61,12 +60,18 @@ const minorWords = new Set([
 
     return `Ready. ${count} updated items.`;
 
-   
     function capitalize(str) {
         if (!str) return str;
-        if (/[A-Z]/.test(str.slice(1))) return str;
+        const match = str.match(/^([^\p{L}]*)(\p{L})(.*)$/u);
+        if (!match) return str;
         
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        const prefix = match[1];
+        const char = match[2];
+        const rest = match[3];
+
+        if (/[A-Z]/.test(rest)) return str;
+        
+        return prefix + char.toUpperCase() + rest.toLowerCase();
     }
 })();
 ```
